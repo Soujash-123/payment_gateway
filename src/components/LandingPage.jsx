@@ -4,28 +4,89 @@ import { ArrowRight, Key, Zap, Smartphone, Lock, Copy, Check, ChevronRight } fro
 const LandingPage = () => {
   const [copied, setCopied] = React.useState(false);
   const [isVisible, setIsVisible] = useState(false);
+  const [activeTab, setActiveTab] = useState('curl');
 
   useEffect(() => {
     setIsVisible(true);
   }, []);
 
-  const curlCommand = `curl -X POST https://synlink.onrender.com/integrate-razorpay \\
+  const codeExamples = {
+    curl: `curl -X POST https://synlink.onrender.com/integrate-razorpay \\
 -H "Content-Type: application/json" \\
 -d '{
-  "api_key": "rzp_test_JrKAzmnInWh8vu",
-  "secret_key": "R9wompUtizorFSSDUR5QIq95",
+  "api_key": "<YOUR_API_KEY>",
+  "secret_key": "<YOUR_SECRET_KEY>",
   "amount": "500",
   "phone": "1234567890"
-}'`;
+}'`,
+
+    python: `import requests
+import json
+
+url = "https://synlink.onrender.com/integrate-razorpay"
+headers = {"Content-Type": "application/json"}
+
+payload = {
+    "api_key": "<YOUR_API_KEY>",
+    "secret_key": "<YOUR_SECRET_KEY>",
+    "amount": "500",
+    "phone": "1234567890"
+}
+
+response = requests.post(url, headers=headers, json=payload)
+print(response.json())`,
+
+    node: `const axios = require('axios');
+
+const url = 'https://synlink.onrender.com/integrate-razorpay';
+const payload = {
+    api_key: '<YOUR_API_KEY>',
+    secret_key: '<YOUR_SECRET_KEY>',
+    amount: '500',
+    phone: '1234567890'
+};
+
+axios.post(url, payload, {
+    headers: { 'Content-Type': 'application/json' }
+})
+.then(response => console.log(response.data))
+.catch(error => console.error(error));`,
+
+    java: `import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.net.URI;
+
+public class RazorpayIntegration {
+    public static void main(String[] args) {
+        String payload = """
+            {
+                "api_key": "<YOUR_API_KEY>",
+                "secret_key": "<YOUR_SECRET_KEY>",
+                "amount": "500",
+                "phone": "1234567890"
+            }""";
+
+        HttpRequest request = HttpRequest.newBuilder()
+            .uri(URI.create("https://synlink.onrender.com/integrate-razorpay"))
+            .header("Content-Type", "application/json")
+            .POST(HttpRequest.BodyPublishers.ofString(payload))
+            .build();
+
+        HttpClient.newHttpClient()
+            .sendAsync(request, HttpResponse.BodyHandlers.ofString())
+            .thenApply(HttpResponse::body)
+            .thenAccept(System.out::println);
+    }`
+  };
 
   const copyCode = () => {
-    navigator.clipboard.writeText(curlCommand);
+    navigator.clipboard.writeText(codeExamples[activeTab]);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
 
   const handleDemoClick = () => {
-    // Open calendar scheduling in a new tab
     window.open('https://calendly.com/synlink-demo/30min', '_blank');
   };
 
@@ -75,7 +136,6 @@ const LandingPage = () => {
           </div>
         </div>
 
-        {/* Rest of the component remains the same */}
         {/* Stats Section */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-24 bg-white/80 backdrop-blur-lg rounded-2xl p-8 shadow-xl">
           {[
@@ -109,12 +169,12 @@ const LandingPage = () => {
           ))}
         </div>
 
-        {/* Code Example */}
+        {/* Code Example Section */}
         <div className="bg-gray-900 rounded-2xl p-8 mb-24 shadow-2xl">
           <div className="flex justify-between items-center mb-6">
             <div>
-              <h3 className="text-white font-semibold text-xl mb-2">Quick Integration Example</h3>
-              <p className="text-gray-400">Copy and paste this code to get started</p>
+              <h3 className="text-white font-semibold text-xl mb-2">Integration Examples</h3>
+              <p className="text-gray-400">Choose your preferred language</p>
             </div>
             <button
               onClick={copyCode}
@@ -124,8 +184,23 @@ const LandingPage = () => {
               {copied ? "Copied!" : "Copy code"}
             </button>
           </div>
+          <div className="flex gap-4 mb-4">
+            {Object.keys(codeExamples).map((lang) => (
+              <button
+                key={lang}
+                onClick={() => setActiveTab(lang)}
+                className={`px-4 py-2 rounded-lg ${
+                  activeTab === lang
+                    ? 'bg-blue-600 text-white'
+                    : 'bg-gray-800 text-gray-400 hover:bg-gray-700'
+                }`}
+              >
+                {lang.toUpperCase()}
+              </button>
+            ))}
+          </div>
           <pre className="text-gray-300 overflow-x-auto bg-gray-800/50 p-6 rounded-xl">
-            <code>{curlCommand}</code>
+            <code>{codeExamples[activeTab]}</code>
           </pre>
         </div>
 
