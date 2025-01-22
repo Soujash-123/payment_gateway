@@ -24,6 +24,11 @@ const LandingPage = () => {
     setTimeout(() => setCopied(false), 2000);
   };
 
+  const handleDemoClick = () => {
+    // Open calendar scheduling in a new tab
+    window.open('https://calendly.com/synlink-demo/30min', '_blank');
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50">
       {/* Floating shapes background */}
@@ -50,11 +55,19 @@ const LandingPage = () => {
               Set up in minutes, not days.
             </p>
             <div className="flex flex-col md:flex-row gap-4 justify-center items-center">
-              <button className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-4 rounded-xl text-lg font-semibold hover:opacity-90 transition-all transform hover:scale-105 flex items-center gap-2 shadow-lg">
+              <a 
+                href="https://synlink.onrender.com" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-4 rounded-xl text-lg font-semibold hover:opacity-90 transition-all transform hover:scale-105 flex items-center gap-2 shadow-lg"
+              >
                 Start Free Trial
                 <ArrowRight className="w-5 h-5" />
-              </button>
-              <button className="bg-white text-gray-800 px-8 py-4 rounded-xl text-lg font-semibold hover:bg-gray-50 transition-all border border-gray-200 flex items-center gap-2">
+              </a>
+              <button 
+                onClick={handleDemoClick}
+                className="bg-white text-gray-800 px-8 py-4 rounded-xl text-lg font-semibold hover:bg-gray-50 transition-all border border-gray-200 flex items-center gap-2"
+              >
                 Schedule Demo
                 <ChevronRight className="w-5 h-5" />
               </button>
@@ -62,6 +75,7 @@ const LandingPage = () => {
           </div>
         </div>
 
+        {/* Rest of the component remains the same */}
         {/* Stats Section */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-24 bg-white/80 backdrop-blur-lg rounded-2xl p-8 shadow-xl">
           {[
@@ -123,10 +137,15 @@ const LandingPage = () => {
           <p className="text-white/90 text-xl mb-8 max-w-2xl mx-auto">
             Join thousands of businesses that trust our payment solution. Set up your account in minutes and start accepting payments today.
           </p>
-          <button className="bg-white text-blue-600 px-12 py-6 rounded-xl text-xl font-semibold hover:bg-gray-50 transition-all transform hover:scale-105 flex items-center mx-auto gap-2 shadow-lg">
+          <a 
+            href="https://synlink.onrender.com" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="bg-white text-blue-600 px-12 py-6 rounded-xl text-xl font-semibold hover:bg-gray-50 transition-all transform hover:scale-105 flex items-center mx-auto gap-2 shadow-lg"
+          >
             Get Started For Free
             <ArrowRight className="w-6 h-6" />
-          </button>
+          </a>
         </div>
       </div>
     </div>
